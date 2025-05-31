@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+    <main>
+        <div class="container">
+            <div class="result-box">
+                <div class="result-content">
+                    <h2 class="result-title">Natija</h2>
+                    <p class="result-text">Ushbu natijalarni barchasi belgilangan javoblarga tayanilgan holatda hosil qilindi. <br>
+                        Aniq sizga qaysi kasb mos kelishini bilish uchun esa biz bilan bog’laning,mutaxasislarimiz 
+                        sizga batafsil maslahat berishadi.</p>
+                </div>
+                    <img class="result-image" src="{% static 'img/result-img.svg' %}" alt="result-image">                    
+            </div>
+            <div class="courses">
+                <div class="course-cards">
+                    {% for result in category_data %}
+                    <div class="course-card">
+                        <div class="course_description">
+                            <h2 class="course-title">{{result.name}}</h2>
+                            <p class="course-text">Kreativlik , intizom, yaxshi 
+                                fikrlash qobilyati</p>
+                            </div>
+                            <div class="circle">
+                                <span class="progres">{{result.per}}%</span>
+                            </div>    
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="about_course_content">
+                    <div class="course_content_item">
+                        <h2>Kurslar haqida slayd bilan tanishing</h2>
+                        <p>Slayd orqali siz IT sohasi va bizda mavjud bo’lgan TOP kasblar haqida bilib olishingiz mumkin bo’ladi.</p>
+                        <button class="plus-btn"><span>+</span></button>
+
+                    </div>
+                    <div class="course_content_item">
+                        <div class="course_content_decription">
+                            <h2>O’zingizni qulay usulda o’qing</h2>
+                            <span class="text-puprle">Standart</span>
+                            <br>
+                            <span class="text-puprle">BootCamp</span>
+                        </div>
+                        <img class="course-img" src="img/fast.png" alt="">
+                        <button class="plus-btn"><span>+</span></button>
+                    </div>
+                    <div class="course_content_item">
+                        <h2>Kurslar dasturi bozor talabiga javob beradi</h2>
+                        <div class="company">
+                            <img src="{% static 'img/hh.png' %}" alt="hh">
+                            <img src="{% static 'img/superjob.png' %}" alt="superjob">
+                            <img src="{% static 'img/xabr.png' %}" alt="xabr">
+                            <img src="{% static 'img/work.png' %}" alt="work">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main> 
+
+
+
+{% endblock %}
