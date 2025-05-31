@@ -1,0 +1,36 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="icon" href="{% static 'img/favicon.svg' %}">
+
+</head>
+
+<body>
+  <!-- =================== HEADER =================== -->
+  <header>
+    <div class="container">
+      <nav>
+        <a class="logo" href="{% url 'main:index' %}"><img src="{% static 'img/logo.jpg' %}" alt="logo" /></a>
+        <a class="number" href="tel:++998 99 999 99 99">+998 99 999 99 99</a>
+      </nav>
+    </div>
+  </header>
+
+
+  {% block content %} {% endblock content %}
+
+
+
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

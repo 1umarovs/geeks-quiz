@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="modal-block">
+    <div class="modal">
+        <button class="close-btn"><img src="{% static 'img/close.svg' %}" alt="close-icon"></button>
+        <h3 class="modal-title">IT ga birinchi qadam
+            shu yerdan boshlanadi!</h3>
+        <p class="modal-text">Test natijalari bo’yicha yordam berishimiz uchun bizga ma’lumotlaringizni qoldiring.</p>
+        <form class="post-form" method="POST">
+            {% csrf_token %}
+            <input type="text" placeholder="Ismingiz" minlength="3" name="name" required>
+
+            <input type="number" placeholder="Yoshingiz" name="age" required>
+
+            <input type="text" id="phone" placeholder="Telefon" name="phone" required value="+998"
+                oninput="formatPhoneNumber(this)" maxlength="19" autocomplete="off">
+
+
+            <button class="post-btn" type="submit">Yuborish</button>
+        </form>
+    </div>
+</div>
+
+
+<div class="main">
+    <!-- =================== MAIN =================== -->
+
+    <center>
+        {% if error_message %}
+        <div class="custom-modal" id="errorModal">
+            <div class="custom-modal-content">
+                <div>
+                    <div class="custom-modal-header">
+                        <h3>Xatolik yuz berdi!</h3>
+                    </div>
+                    <div class="custom-modal-body">
+                        <p>{{ error_message }}</p>
+                    </div>
+                </div>
+
+                <button class="custom-close-btn" onclick="closeModal()">&times;</button>
+
+            </div>
+        </div>
+        {% endif %}
+    </center>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            IT sohasida o’zingiz uchun qaysi kasb mos kelishini bilib oling
+                        </h1>
+                        <div class="button">
+                            <a href="#" class="btn">Bilib olish</a>
+                        </div>
+                    </div>
+                    <div>
+                        <img class="hero-img" src="{% static 'img/hero-img.svg' %}" alt="hero-img">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+    function formatPhoneNumber(input) {
+        let value = input.value.replace(/\D/g, '');
+        if (!value.startsWith('998')) {
+            value = '998' + value.slice(0, 9);
+        } else {
+            value = value.slice(0, 12);
+        }
+
+        let formattedValue = '+998';
+        if (value.length > 3) {
+            formattedValue += ' (' + value.slice(3, 5);
+        }
+        if (value.length > 5) {
+            formattedValue += ') ' + value.slice(5, 8);
+        }
+        if (value.length > 8) {
+            formattedValue += ' ' + value.slice(8, 10);
+        }
+        if (value.length > 10) {
+            formattedValue += '-' + value.slice(10, 12);
+        }
+
+        input.value = formattedValue;
+    }
+
+    function closeModal() {
+        document.getElementById('errorModal');
+        setTimeout(function() {
+            document.getElementById('errorModal').style.display = 'none';
+        }, 500);
+    }
+
+
+    setTimeout(function() {
+        closeModal();
+    }, 10000);
+
+
+    if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+
+</script>
+
+
+
+{% endblock content %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main>
+    <form class="container" action="{% url 'main:result' %}" method="post">
+        {% csrf_token %}
+        {% for item in questions_with_answers %}
+        <div class="quiz-container" style="display: none;">
+            <div class="quiz-box">
+                <div class="quiz-header">
+                    <div class="quiz-left">
+                        <div class="purple-line"></div>
+                        <h4># {{ forloop.counter }} / {{ questions_with_answers|length }}</h4>
+                    </div>
+                    <!-- <div class="quiz-right">
+                        <div class="timer">
+                            <p>15:00</p>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="quiz-content">
+                    <p class="quiz-text">{{ item.question.question_text }}</p>
+                </div>
+                <div class="content-container">
+                    {% for answer in item.answers %}
+                    <div class="answer-card" data-value="{{ answer.answer_text }}">
+                        <p>{{ answer.answer_text }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <input type="hidden" name="answer_{{ forloop.counter }}" value="">
+            </div>
+        </div>
+        {% endfor %}
+        <div class="navigation-buttons">
+            <button type="button" class="previous-btn" style="display: none;">Oldingisi</button>
+            <button type="submit" class="submit-btn" style="display: none;">Yuborish</button>
+        </div>
+    </form>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const quizContainers = document.querySelectorAll(".quiz-container");
+        const totalQuestions = quizContainers.length;
+        let currentIndex = 0;
+        quizContainers[0].style.display = "block";
+
+        const updateButtons = () => {
+            document.querySelector(".previous-btn").style.display = currentIndex > 0 ? "inline-block" : "none";
+            document.querySelector(".submit-btn").style.display = currentIndex === totalQuestions - 1 ? "inline-block" : "none";
+        };
+
+        const selectAnswer = (card, containerIndex) => {
+            const answerCards = quizContainers[containerIndex].querySelectorAll(".answer-card");
+            answerCards.forEach(c => c.classList.remove("selected"));
+            card.classList.add("selected");
+            const hiddenInput = quizContainers[containerIndex].querySelector(`input[name="answer_${containerIndex + 1}"]`);
+            hiddenInput.value = card.getAttribute("data-value");
+        };
+
+        quizContainers.forEach((container, index) => {
+            const answerCards = container.querySelectorAll(".answer-card");
+            answerCards.forEach(card => {
+                card.addEventListener("click", () => {
+                    selectAnswer(card, index);
+                    setTimeout(() => {
+                        if (currentIndex < totalQuestions - 1) {
+                            quizContainers[currentIndex].style.display = "none";
+                            currentIndex++;
+                            quizContainers[currentIndex].style.display = "block";
+                            updateButtons();
+                        }
+                    }, 500);
+                });
+            });
+        });
+
+        document.querySelector(".previous-btn").addEventListener("click", () => {
+            if (currentIndex > 0) {
+                quizContainers[currentIndex].style.display = "none";
+                currentIndex--;
+                quizContainers[currentIndex].style.display = "block";
+                updateButtons();
+            }
+        });
+
+    });
+</script>
+
+
+
+{% endblock content %}
